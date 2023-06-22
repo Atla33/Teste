@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario_RU {
+
+  usuarioId Int @id @default(autoincrement())
+  email String @unique @default("")
+  nome String @default("")
+  senha String @default("")
+  cargo String @default("")
+
+}
+
+model Aviso{
+
+  avisoId Int @id @default(autoincrement())
+  titulo String @default("")
+  data DateTime  @default(now())
+  autor String @default("")
+  texto String @default("")
+}
+
+model Cardapio_Semanal{
+
+  cardapioId Int @id @default(autoincrement())
+  prato Prato @relation(fields: [pratoId], references: [pratoId])
+  pratoId Int 
+  data DateTime  @default(now())
+
+}
+
+model Prato{
+
+  pratoId Int @id @default(autoincrement())
+  nome String @default("")
+  tipo String @default("")
+  caloria Int @default(0)
+  vegetariano Boolean @default(false)
+  avaliacoes Avaliacao[]
+  cardapios   Cardapio_Semanal[]
+}
+
+model Sugestao{
+  
+  sugestoesId Int @id @default(autoincrement())
+  nome_aluno String @default("")
+  email_aluno String @default("")
+  comentario_aluno String @default("")
+  data DateTime  @default(now())
+}
+
+model Avaliacao{
+
+avaliacaoId Int @id @default(autoincrement())
+prato Prato @relation(fields: [refeicaoId], references: [pratoId])
+refeicaoId Int
+avaliacao Boolean @default(true)
+
+}
