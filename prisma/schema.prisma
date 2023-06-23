@@ -24,29 +24,23 @@ model Aviso{
 
   avisoId Int @id @default(autoincrement())
   titulo String @default("")
-  data DateTime  @default(now())
+  data DateTime @default(now()) @db.Date
   autor String @default("")
   texto String @default("")
 }
 
 model Cardapio_Semanal{
-
   cardapioId Int @id @default(autoincrement())
-  prato Prato @relation(fields: [pratoId], references: [pratoId])
   pratoId Int 
-  data DateTime  @default(now())
-
+  cardapio String @db.VarChar
+  data DateTime @default(now()) @db.Date
+  dia_da_semana String @db.VarChar
 }
 
 model Prato{
-
   pratoId Int @id @default(autoincrement())
-  nome String @default("")
-  tipo String @default("")
-  caloria Int @default(0)
-  vegetariano Boolean @default(false)
+  nome String @db.VarChar
   avaliacoes Avaliacao[]
-  cardapios   Cardapio_Semanal[]
 }
 
 model Sugestao{
@@ -55,7 +49,7 @@ model Sugestao{
   nome_aluno String @default("")
   email_aluno String @default("")
   comentario_aluno String @default("")
-  data DateTime  @default(now())
+  data DateTime @default(now()) @db.Date
 }
 
 model Avaliacao{

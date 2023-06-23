@@ -1,11 +1,9 @@
-import { Prato} from "@prisma/client";
+import { Prisma } from '@prisma/client';
 
-export class PratoEntity implements Prato {
-
-    pratoId: number;
-    nome: string;
-    tipo: string;
-    caloria: number;
-    vegetariano: boolean;
-
+export class Prato implements Prisma.PratoUncheckedCreateInput {
+  pratoId: number;
+  nome: string;
+  tipo: string;
+  caloria: number;
+  vegetariano: boolean;
 }

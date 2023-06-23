@@ -1,27 +1,56 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePratoDto } from './dto/create-prato.dto';
 import { UpdatePratoDto } from './dto/update-prato.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PratosService {
-  create(createPratoDto: CreatePratoDto) {
-    return 'This action adds a new prato';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createPratoDto: CreatePratoDto) {
+    return this.prisma.prato.create({
+      data: createPratoDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all pratos`;
+  async findAll() {
+    return this.prisma.prato.findMany({
+      include: {
+        avaliacoes: true,
+        cardapios: {
+          include: {
+            prato: true
+          }
+        }
+      }
+    });
+  }
+  
+
+  async findOne(id: number) {
+    return this.prisma.prato.findUnique({
+      where: { pratoId: id },
+      include: {
+        avaliacoes: true,
+        cardapios: { include: { cardapio: true } },
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} prato`;
+  async update(id: number, updatePratoDto: UpdatePratoDto) {
+    return this.prisma.prato.update({
+      where: { pratoId: id },
+      data: updatePratoDto,
+      include: {
+        avaliacoes: true,
+        cardapios: { include: { cardapio: true } },
+      },
+    });
   }
 
-  update(id: number, updatePratoDto: UpdatePratoDto) {
-    return `This action updates a #${id} prato`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} prato`;
+  async remove(id: number) {
+    return this.prisma.prato.delete({
+      where: { pratoId: id },
+    });
   }
 }

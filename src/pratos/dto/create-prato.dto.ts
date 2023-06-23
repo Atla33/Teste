@@ -1,20 +1,15 @@
-import { Prato} from "@prisma/client";
-import { IsString } from "class-validator";
+import { IsBoolean, IsInt, IsString } from 'class-validator';
 
+export class CreatePratoDto {
+  @IsString()
+  nome: string;
 
-export class CreatePratoDto implements Prato {
+  @IsString()
+  tipo: string;
 
-    pratoId: number;
+  
+  caloria: number;
 
-    @IsString()
-    nome: string;
-
-    @IsString()
-    tipo: string;
-
-    caloria: number;
-
-    @IsString()
-    vegetariano: boolean;
-
+  
+  vegetariano: boolean;
 }
